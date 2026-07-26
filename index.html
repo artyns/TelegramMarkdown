@@ -176,12 +176,12 @@ textarea:focus{
 <div class="toolbar">
 
 
-<button onclick="insert('**متن بولد**')">
+<button onclick="insert('**bold text**')">
 B
 </button>
 
 
-<button onclick="insert('*متن ایتالیک*')">
+<button onclick="insert('*Italic text*')">
 I
 </button>
 
@@ -191,37 +191,67 @@ Code
 </button>
 
 
-<button onclick="insert('# عنوان')">
+<button onclick="insert('# Header two')">
 H1
 </button>
 
 
-<button onclick="insert('## عنوان دوم')">
+<button onclick="insert('## Header one')">
 H2
 </button>
 
 
-<button onclick="insert('- آیتم')">
+<button onclick="insert('- item')">
 List
 </button>
 
 
-<button onclick="insert('> نقل قول')">
+<button onclick="insert('> quote')">
 Quote
 </button>
 
 
-<button onclick="insert('[متن](لینک)')">
+<button onclick="insert('[text](link)')">
 Link
 </button>
 
 
-<button onclick="insert(`| عنوان | مقدار |
+<button onclick="insert(`| Header one | Header two |
 |---|---|
-| متن | متن |`)">
+| Value one | Value One |`)">
 Table
 </button>
 
+<button onclick="insert('![image](image link)')">
+Image
+</button>
+
+<button onclick="insert(`- [x] item one
+- [ ] item two`)">
+CheckBox list
+</button>
+
+<button onclick="insert('||text||')">
+spoiler
+</button>
+
+<button onclick="insert(`__text__`)">
+UnderLine
+</button>
+
+<button onclick="insert('---')">
+Horizontal Rule
+</button>
+
+<button onclick="insert('$$E=mc^2$$')">
+Math
+</button>
+
+<button onclick="insert(`![1](photo link)
+![2](photo link)
+![3](photo link)`)">
+Slide photos
+</button>
 
 </div>
 
@@ -230,14 +260,14 @@ Table
 <div class="editor-container">
 
 <textarea id="editor"
-placeholder="Markdown بنویسید..."></textarea>
+placeholder="Write Your Post"></textarea>
 
 </div>
 
 
 
 <button class="send" onclick="send()">
-🚀 ارسال
+send to bot
 </button>
 
 
@@ -301,13 +331,11 @@ function insert(text){
 function send(){
 
 
-    alert("دکمه ارسال زده شد ✅");
-
 
 
     if(!window.Telegram || !Telegram.WebApp){
 
-        alert("این صفحه داخل تلگرام باز نشده ❌");
+        alert("open page in telegram with inline keyboard");
 
         return;
 
@@ -334,7 +362,7 @@ function send(){
 
 
 
-    alert("ارسال شد 🚀");
+    alert("Sent to bot");
 
 
 }
