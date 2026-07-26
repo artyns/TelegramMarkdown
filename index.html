@@ -17,24 +17,37 @@
     box-sizing:border-box;
 }
 
+
 body{
+
     margin:0;
-    background:#111;
+
+    background:
+    linear-gradient(135deg,#111827,#1e1b4b);
+
     color:white;
-    font-family:Arial;
+
+    font-family:Arial,sans-serif;
+
 }
 
+
+/* Toolbar */
 
 .toolbar{
 
     display:flex;
-    gap:6px;
-    padding:10px;
+
+    gap:8px;
+
+    padding:12px;
 
     overflow-x:auto;
-    white-space:nowrap;
 
-    background:#181818;
+    background:rgba(0,0,0,0.3);
+
+    backdrop-filter:blur(10px);
+
 }
 
 
@@ -42,12 +55,14 @@ body{
 
     flex-shrink:0;
 
-    padding:10px 14px;
+    padding:10px 16px;
 
     border:none;
-    border-radius:8px;
 
-    background:#333;
+    border-radius:12px;
+
+    background:#374151;
+
     color:white;
 
     font-size:15px;
@@ -55,9 +70,22 @@ body{
 }
 
 
+.toolbar button:active{
+
+    transform:scale(.95);
+
+    background:#6366f1;
+
+}
+
+
+
+/* Editor */
+
+
 .editor-container{
 
-    padding:10px;
+    padding:12px;
 
 }
 
@@ -70,50 +98,79 @@ textarea{
 
     resize:none;
 
-    background:#222;
+    background:#111827;
 
-    color:white;
+    color:#e5e7eb;
 
-    border:1px solid #444;
+    border:2px solid #374151;
 
-    border-radius:12px;
+    border-radius:18px;
 
-    padding:15px;
+    padding:18px;
 
     font-size:16px;
 
-    line-height:1.6;
+    line-height:1.7;
+
+    outline:none;
 
 }
 
 
+textarea:focus{
+
+    border-color:#6366f1;
+
+}
+
+
+
+/* Send */
+
+
 .send{
 
-    width:calc(100% - 20px);
+    width:calc(100% - 24px);
 
-    margin:10px;
+    margin:12px;
 
-    padding:14px;
+    padding:16px;
 
     border:0;
 
-    border-radius:12px;
+    border-radius:16px;
 
-    background:#0088cc;
+    background:
+
+    linear-gradient(135deg,#6366f1,#8b5cf6);
 
     color:white;
 
     font-size:18px;
 
+    font-weight:bold;
+
 }
+
+
+
+.send:active{
+
+    transform:scale(.97);
+
+}
+
 
 
 </style>
 
+
 </head>
 
 
+
 <body>
+
 
 
 <div class="toolbar">
@@ -159,9 +216,9 @@ Link
 </button>
 
 
-<button onclick="insert(`| ستون ۱ | ستون ۲ |
+<button onclick="insert(`| عنوان | مقدار |
 |---|---|
-| مقدار | مقدار |`)">
+| متن | متن |`)">
 Table
 </button>
 
@@ -180,7 +237,7 @@ placeholder="Markdown بنویسید..."></textarea>
 
 
 <button class="send" onclick="send()">
-ارسال
+🚀 ارسال
 </button>
 
 
@@ -188,8 +245,6 @@ placeholder="Markdown بنویسید..."></textarea>
 
 <script>
 
-
-// باز شدن کامل WebApp تلگرام
 
 if(window.Telegram && Telegram.WebApp){
 
@@ -201,76 +256,93 @@ if(window.Telegram && Telegram.WebApp){
 
 
 
+
 function insert(text){
 
 
-let box=document.getElementById("editor");
+    let box =
+    document.getElementById("editor");
 
 
-let start=box.selectionStart;
-
-let end=box.selectionEnd;
-
-
-let value=box.value;
+    let start =
+    box.selectionStart;
 
 
-box.value =
-value.substring(0,start)
-+
-text
-+
-value.substring(end);
+    let end =
+    box.selectionEnd;
 
 
-box.focus();
+    let value =
+    box.value;
 
 
-box.selectionStart =
-box.selectionEnd =
-start + text.length;
+    box.value =
+    value.substring(0,start)
+    +
+    text
+    +
+    value.substring(end);
+
+
+
+    box.focus();
+
+
+    box.selectionStart =
+    box.selectionEnd =
+    start + text.length;
 
 
 }
+
 
 
 
 function send(){
 
 
-let text =
-document.getElementById("editor").value;
+    alert("دکمه ارسال زده شد ✅");
 
 
 
-if(!window.Telegram || !Telegram.WebApp){
+    if(!window.Telegram || !Telegram.WebApp){
 
-    alert("این صفحه داخل تلگرام باز نشده");
+        alert("این صفحه داخل تلگرام باز نشده ❌");
 
-    return;
+        return;
+
+    }
+
+
+
+    let text =
+    document.getElementById("editor").value;
+
+
+
+    Telegram.WebApp.sendData(
+
+        JSON.stringify({
+
+            type:"markdown",
+
+            text:text
+
+        })
+
+    );
+
+
+
+    alert("ارسال شد 🚀");
+
 
 }
 
-
-
-Telegram.WebApp.sendData(
-
-JSON.stringify({
-
-    type:"markdown",
-
-    text:text
-
-})
-
-);
-
-
-
-}
 
 
 </script>
+
 
 
 </body>
