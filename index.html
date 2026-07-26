@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Markdown Editor</title>
+<title>Telegram Markdown Editor</title>
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
 
 <style>
 
@@ -21,8 +25,6 @@ body{
 }
 
 
-/* نوار ابزار */
-
 .toolbar{
 
     display:flex;
@@ -30,11 +32,9 @@ body{
     padding:10px;
 
     overflow-x:auto;
-
     white-space:nowrap;
 
     background:#181818;
-
 }
 
 
@@ -54,8 +54,6 @@ body{
 
 }
 
-
-/* ادیتور */
 
 .editor-container{
 
@@ -89,9 +87,6 @@ textarea{
 }
 
 
-
-/* دکمه ارسال */
-
 .send{
 
     width:calc(100% - 20px);
@@ -113,14 +108,12 @@ textarea{
 }
 
 
-
 </style>
 
 </head>
 
 
 <body>
-
 
 
 <div class="toolbar">
@@ -131,7 +124,7 @@ B
 </button>
 
 
-<button onclick="insert('*ایتالیک*')">
+<button onclick="insert('*متن ایتالیک*')">
 I
 </button>
 
@@ -166,13 +159,14 @@ Link
 </button>
 
 
-<button onclick="insert('| ستون ۱ | ستون ۲ |\\n|---|---|\\n| مقدار | مقدار |')">
+<button onclick="insert(`| ستون ۱ | ستون ۲ |
+|---|---|
+| مقدار | مقدار |`)">
 Table
 </button>
 
 
 </div>
-
 
 
 
@@ -185,17 +179,30 @@ placeholder="Markdown بنویسید..."></textarea>
 
 
 
-
 <button class="send" onclick="send()">
 ارسال
 </button>
 
 
 
+
 <script>
 
 
+// باز شدن کامل WebApp تلگرام
+
+if(window.Telegram && Telegram.WebApp){
+
+    Telegram.WebApp.ready();
+
+    Telegram.WebApp.expand();
+
+}
+
+
+
 function insert(text){
+
 
 let box=document.getElementById("editor");
 
@@ -223,27 +230,42 @@ box.selectionStart =
 box.selectionEnd =
 start + text.length;
 
-}
 
+}
 
 
 
 function send(){
 
-if(window.Telegram){
 
-Telegram.WebApp.sendData(
-JSON.stringify({
+let text =
+document.getElementById("editor").value;
 
-type:"markdown",
 
-text:
-document.getElementById("editor").value
 
-})
-);
+if(!window.Telegram || !Telegram.WebApp){
+
+    alert("این صفحه داخل تلگرام باز نشده");
+
+    return;
 
 }
+
+
+
+Telegram.WebApp.sendData(
+
+JSON.stringify({
+
+    type:"markdown",
+
+    text:text
+
+})
+
+);
+
+
 
 }
 
@@ -252,4 +274,5 @@ document.getElementById("editor").value
 
 
 </body>
+
 </html>
